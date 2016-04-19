@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  root to: "users#index"
+  root to: 'users#index'
 
-  resources :users
+  resources :users, except: [:new]
+  get 'register' => 'users#new', as: :register
 
   get 'login' => 'user_sessions#new', as: :login
   post 'login' => 'user_sessions#create'
