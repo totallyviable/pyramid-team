@@ -1,8 +1,8 @@
 <%= form_tag(submit_login_path, { method: :post, class: "form-horizontal", role: "form" }) do %>
     <div class="form-group">
-        <%= label_tag :email, nil, { class: "col-sm-2 control-label" } %>
+        <%= label_tag :username, nil, { class: "col-sm-2 control-label" } %>
         <div class="col-sm-10">
-            <%= text_field_tag :email, nil, { class: "form-control" } %>
+            <%= text_field_tag :username, nil, { class: "form-control" } %>
         </div>
 
         <%= label_tag :password, nil, { class: "col-sm-2 control-label" } %>
