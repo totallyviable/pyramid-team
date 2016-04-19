@@ -1,8 +1,12 @@
 class UserSessionsController < ApplicationController
-  skip_before_action :require_login, except: [:destroy]
+  skip_before_action :require_login, except: [:destroy, :edit]
+  before_action :require_unauthenticated, except: [:destroy, :edit]
 
   def new
     @user = User.new
+  end
+
+  def edit
   end
 
   def create
@@ -17,5 +21,11 @@ class UserSessionsController < ApplicationController
   def destroy
     logout
     redirect_to(:users, notice: 'Logged out!')
+  end
+
+  private
+
+  def require_unauthenticated
+    redirect_to logout_path, notice: "Already logged in" if logged_in?
   end
 end
