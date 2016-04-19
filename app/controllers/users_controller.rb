@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    redirect_to @user unless @user.username == params[:id]
   end
 
   # GET /users/new
@@ -67,7 +68,7 @@ class UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.find(params[:id])
+      @user = User.from_param(params[:id])
     end
 
     def user_params
@@ -75,7 +76,7 @@ class UsersController < ApplicationController
     end
 
     def current_user_can_edit?
-      @user = User.find(params[:id])
+      @user = User.from_param(params[:id])
       redirect_to root_path, notice: "Current user doesn't have access to edit" unless current_user == @user
     end
 end
