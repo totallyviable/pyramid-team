@@ -1,0 +1,83 @@
+class TeamsController < ApplicationController
+  skip_before_action :require_login, only: [:index, :show]
+  before_action :current_user_can_edit?, only: [:edit, :update, :destroy]
+
+  before_action :set_team, only: [:show, :edit, :update, :destroy]
+
+  # GET /teams
+  # GET /teams.json
+  def index
+    @teams = Team.all
+  end
+
+  # GET /teams/1
+  # GET /teams/1.json
+  def show
+    redirect_to @team unless @team.name == params[:id]
+  end
+
+  # GET /teams/new
+  def new
+    @team = Team.new
+  end
+
+  # GET /teams/1/edit
+  def edit
+  end
+
+  # POST /teams
+  # POST /teams.json
+  def create
+    @team = Team.new(team_params)
+
+    @team.owner = current_user
+
+    respond_to do |format|
+      if @team.save
+        format.html { redirect_to @team, notice: 'Team was successfully created.' }
+        format.json { render :show, status: :created, location: @team }
+      else
+        format.html { render :new }
+        format.json { render json: @team.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /teams/1
+  # PATCH/PUT /teams/1.json
+  def update
+    respond_to do |format|
+      if @team.update(team_params)
+        format.html { redirect_to @team, notice: 'Team was successfully updated.' }
+        format.json { render :show, status: :ok, location: @team }
+      else
+        format.html { render :edit }
+        format.json { render json: @team.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /teams/1
+  # DELETE /teams/1.json
+  def destroy
+    @team.destroy
+    respond_to do |format|
+      format.html { redirect_to teams_url, notice: 'Team was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    def set_team
+      @team = Team.from_param(params[:id])
+    end
+
+    def team_params
+      params.require(:team).permit(:name)
+    end
+
+    def current_user_can_edit?
+      @team = Team.from_param(params[:id])
+      redirect_to root_path, notice: "Current user doesn't have access to edit" unless current_user == @team.owner
+    end
+end
