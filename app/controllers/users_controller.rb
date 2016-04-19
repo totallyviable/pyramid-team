@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:index, :new, :create]
-  before_action :current_user_can_edit?, only: [:update, :edit, :destroy]
+  before_action :current_user_can_edit?, only: [:edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
