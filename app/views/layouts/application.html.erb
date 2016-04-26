@@ -31,6 +31,7 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
+                    <li><%= link_to "Teams", teams_path %></li>
                     <% if current_user %>
                         <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
                         <li><%= link_to "Logout", :logout %></li>

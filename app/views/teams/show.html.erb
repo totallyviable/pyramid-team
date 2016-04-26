@@ -17,3 +17,13 @@
     <dt>Owner:</dt>
     <dd><%= link_to @team.owner.username, @team.owner %></dd>
 </dl>
+
+<% if @team.members? %>
+    <h2>Members</h2>
+    <dl class="dl-horizontal">
+        <% @team.members.each do |user| %>
+            <dt>User</dt>
+            <dd><%= link_to user.username, user %></dd>
+        <% end %>
+    </dl>
+<% end %>
